@@ -1,0 +1,55 @@
+services:
+  napcat:
+    container_name: napcat
+    environment:
+      - tz=Asia/Shanghai
+      - NAPCAT_UID=${NAPCAT_UID}
+      - NAPCAT_GID=${NAPCAT_GID}
+    ports:
+      - 3000:3000
+      - 3001:3001
+      - 6099:6099
+    restart: always
+    volumes:
+      - napcatQQ:/app/.config/QQ
+      - napcatCONFIG:/app/napcat/config
+      - maimbotDATA:/MaiMBot/data #麦麦的图片等要给napcat不然发送图片会有问题
+    image: mlikiowa/napcat-docker:latest
+
+  mongodb:
+    container_name: mongodb
+    environment:
+      - tz=Asia/Shanghai
+    expose:
+      - "27017"
+    restart: always
+    volumes:
+      - mongodb:/data/db
+      - mongodbCONFIG:/data/configdb
+    image: mongo:latest
+
+  maimbot:
+    container_name: maimbot
+    environment:
+      - tz=Asia/Shanghai
+    expose:
+      - "8080"
+    restart: always
+    depends_on:
+      - mongodb
+      - napcat
+    volumes:
+      - maimbotCONFIG:/MaiMBot/config
+      - maimbotDATA:/MaiMBot/data
+      - ./.env.prod:/MaiMBot/.env.prod
+    image: sengokucola/maimbot:latest
+
+volumes:
+  maimbotCONFIG:
+  maimbotDATA:
+  napcatQQ:
+  napcatCONFIG:
+  mongodb:
+  mongodbCONFIG:
+
+

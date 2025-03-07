@@ -1,0 +1,8 @@
+[project]
+name = "Megbot"
+version = "0.1.0"
+description = "New Bot Project"
+
+[tool.nonebot]
+plugins = ["src.plugins.chat"]
+plugin_dirs = ["src/plugins"] 
