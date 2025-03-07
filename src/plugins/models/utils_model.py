@@ -17,15 +17,12 @@ class LLM_request:
     def __init__(self, model, **kwargs):
         # 将大写的配置键转换为小写并从config中获取实际值
         try:
-            #self.api_key = getattr(config, model["key"])
-            self.api_key = ""
-            #self.base_url = getattr(config, model["base_url"])
-            self.base_url = "https://api.deepseek.com"
+            self.api_key = getattr(config, model["key"])
+            self.base_url = getattr(config, model["base_url"])
         except AttributeError as e:
             logger.error(f"配置错误：找不到对应的配置项 - {str(e)}")
             raise ValueError(f"配置错误：找不到对应的配置项 - {str(e)}") from e
-        #self.model_name = model["name"]
-        self.model_name = 'deepseek-reasoner'
+        self.model_name = model["name"]
         self.params = kwargs
 
     async def generate_response(self, prompt: str) -> Tuple[str, str]:

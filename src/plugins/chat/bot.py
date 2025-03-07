@@ -110,7 +110,6 @@ class ChatBot:
         
         if random() < reply_probability:
             
-            
             tinking_time_point = round(time.time(), 2)
             think_id = 'mt' + str(tinking_time_point)
             thinking_message = Message_Thinking(message=message,message_id=think_id)
